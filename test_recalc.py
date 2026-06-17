@@ -188,6 +188,7 @@ def test_tc():
 
 def test_fl():
     decoder = JSONDecoder()
+    mods: list[dict[str, Any]]
     input = """
     [
         {
@@ -195,10 +196,24 @@ def test_fl():
         }
     ]
     """
-    mods: list[dict[str, Any]] = list()
+    mods = list()
     for mod_dict in decoder.decode(input):
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == approx((1.12, 1.2)))
+    input = """
+    [
+        {
+            "acronym": "FL"
+        },
+        {
+            "acronym": "FR"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((1.12, 1.1)))
     input = """
     [
         {
@@ -380,6 +395,58 @@ def test_ht():
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == approx((0.5, 0.83)))
 
+def test_wu_wd():
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]]
+    input = """
+    [
+        {
+            "acronym": "WU",
+            "settings": { "initial_rate": 1.2, "final_rate": 1.7 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 1.128)))
+    input = """
+    [
+        {
+            "acronym": "WD",
+            "settings": { "initial_rate": 1.7, "final_rate": 1.2 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 1.128)))
+    input = """
+    [
+        {
+            "acronym": "WD",
+            "settings": { "initial_rate": 0.9, "final_rate": 0.7 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 0.536)))
+    input = """
+    [
+        {
+            "acronym": "WD",
+            "settings": { "initial_rate": 0.5, "final_rate": 0.51 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 0.2)))
+
 def test_dt():
     input = """
     [
@@ -405,3 +472,75 @@ def test_dt():
     for mod_dict in decoder.decode(input):
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == (1.2, 1.45))
+
+def test_fun_and_stuff():
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]]
+    input = """
+    [
+        {
+            "acronym": "SY"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (0.8, 0.99))
+    input = """
+    [
+        {
+            "acronym": "AD"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (1.0, 0.7))
+    input = """
+    [
+        {
+            "acronym": "MG"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 0.4)))
+    input = """
+    [
+        {
+            "acronym": "AS"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (0.5, 0.1))
+    input = """
+    [
+        {
+            "acronym": "TP"
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (0.1, 0.01))
+    input = """
+    [
+        {
+            "acronym": "DF",
+            "settings": { "start_scale": 4 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (1.0, 0.96))
+
