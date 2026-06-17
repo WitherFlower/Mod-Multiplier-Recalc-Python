@@ -473,6 +473,34 @@ def test_dt():
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == (1.2, 1.45))
 
+def test_da():
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]]
+    input = """
+    [
+        {
+            "acronym": "DA",
+            "settings": { "circle_size": 3.5, "approach_rate": 9.5 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods, cs=4, hp=5, od=9, ar=9.2) == approx((0.5, 0.6375)))
+    input = """
+    [
+        {
+            "acronym": "DA",
+            "settings": { "circle_size": 0, "approach_rate": 0 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods, cs=4, hp=5, od=9, ar=9.2) == approx((0.5, 0.1)))
+
 def test_fun_and_stuff():
     decoder = JSONDecoder()
     mods: list[dict[str, Any]]

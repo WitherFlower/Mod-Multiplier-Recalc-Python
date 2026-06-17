@@ -202,16 +202,20 @@ def calculate_multipliers(mods: list[dict[str, Any]], cs: float = 0, ar: float =
             new_mult = 1
             if ("settings" in mod.keys() and
                 "circle_size" in mod["settings"].keys()):
-                new_mult *= (1 - 0.5 * abs(cs - mod["settings"]["circle_size"]))
+                new_mult *= max(0.1, 1 - 0.5 * abs(cs - mod["settings"]["circle_size"]))
+                print(new_mult)
             if ("settings" in mod.keys() and
                 "approach_rate" in mod["settings"].keys()):
-                new_mult *= (1 - 0.5 * abs(cs - mod["settings"]["approach_rate"]))
+                new_mult *= max(0.1, 1 - 0.5 * abs(ar - mod["settings"]["approach_rate"]))
+                print(new_mult)
             if ("settings" in mod.keys() and
                 "overall_difficulty" in mod["settings"].keys()):
-                new_mult *= (1 - 0.5 * abs(cs - mod["settings"]["overall_difficulty"]))
+                new_mult *= max(0.1, 1 - 0.5 * abs(od - mod["settings"]["overall_difficulty"]))
+                print(new_mult)
             if ("settings" in mod.keys() and
                 "drain_rate" in mod["settings"].keys()):
-                new_mult *= (1 - 0.5 * abs(cs - mod["settings"]["drain_rate"]))
+                new_mult *= max(0.1, 1 - 0.5 * abs(hp - mod["settings"]["drain_rate"]))
+                print(new_mult)
 
             new_multiplier *= max(new_mult, 0.1)
             old_multiplier *= 0.5
