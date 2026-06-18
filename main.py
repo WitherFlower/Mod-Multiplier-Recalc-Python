@@ -123,7 +123,8 @@ def calculate_multipliers(mods: list[dict[str, Any]], cs: float = 0, ar: float =
                 new_mult -= 0.01
             return new_mult
 
-        if mod["acronym"] == "DT":
+        if (mod["acronym"] == "DT" or
+            mod["acronym"] == "NC"):
             if ("settings" in mod.keys() and
                 "speed_change" in mod["settings"].keys()):
 
@@ -144,7 +145,8 @@ def calculate_multipliers(mods: list[dict[str, Any]], cs: float = 0, ar: float =
             new_mult = rate_20/20 * 1.4 - 0.5
             return new_mult
 
-        if mod["acronym"] == "HT":
+        if (mod["acronym"] == "HT" or
+            mod["acronym"] == "DC"):
             if ("settings" in mod.keys() and
                 "speed_change" in mod["settings"].keys()):
                 rate_10 = floor(mod["settings"]["speed_change"] * 10)

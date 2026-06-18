@@ -293,6 +293,26 @@ def test_bl():
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == approx((1.12, 1.24)))
 
+def test_hdnchr():
+    input = """
+    [
+        {
+            "acronym": "HD"
+        },
+        {
+            "acronym": "NC"
+        },
+        {
+            "acronym": "HR"
+        }
+    ]
+    """
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]] = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((1.06 ** 2 * 1.1, 1.04 * 1.09 * 1.23)))
+
 def test_hddthr():
     input = """
     [
@@ -395,6 +415,56 @@ def test_ht():
         mods.append(mod_dict)
     assert(calculate_multipliers(mods) == approx((0.5, 0.83)))
 
+def test_dc():
+    input = """
+    [
+        {
+            "acronym": "DC"
+        }
+    ]
+    """
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]] = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.3, 0.55)))
+    input = """
+    [
+        {
+            "acronym": "DC",
+            "settings": { "speed_change": 0.5 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.1, 0.2)))
+    input = """
+    [
+        {
+            "acronym": "DC",
+            "settings": { "speed_change": 0.94 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 0.76)))
+    input = """
+    [
+        {
+            "acronym": "DC",
+            "settings": { "speed_change": 0.99 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == approx((0.5, 0.83)))
+
 def test_wu_wd():
     decoder = JSONDecoder()
     mods: list[dict[str, Any]]
@@ -464,6 +534,32 @@ def test_dt():
     [
         {
             "acronym": "DT",
+            "settings": { "speed_change": 2 }
+        }
+    ]
+    """
+    mods = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (1.2, 1.45))
+
+def test_nc():
+    input = """
+    [
+        {
+            "acronym": "NC"
+        }
+    ]
+    """
+    decoder = JSONDecoder()
+    mods: list[dict[str, Any]] = list()
+    for mod_dict in decoder.decode(input):
+        mods.append(mod_dict)
+    assert(calculate_multipliers(mods) == (1.1, 1.23))
+    input = """
+    [
+        {
+            "acronym": "NC",
             "settings": { "speed_change": 2 }
         }
     ]
